@@ -42,17 +42,18 @@ $(document).ready(function () {
     });
 });
 function NormalUser() {
-    window.location.href = 'inbox.html';
+    alert("login");
+    window.location = 'inbox.html';
 }
 function LinkedinUser()  {
-    window.location.href = "linkedin.html";
+    window.location = "linkedin.html";
 }
 
 function GoogleUser() {
-    window.location.href = "google.html";
+    window.location = "google.html";
 }
 function FacebookUser() {
-    window.location.href = "facebook.html";
+    window.location = "facebook.html";
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
