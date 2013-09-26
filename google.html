@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Google</title>
+</head>
+<body>
+<span id="signinButton">
+  <span
+    class="g-signin"
+    data-callback="signinCallback"
+    data-clientid="666523594183-ca5tshdlh5548l6b08q5fa4pk6fd3mv9.apps.googleusercontent.com"
+    data-cookiepolicy="single_host_origin"
+    data-requestvisibleactions="http://schemas.google.com/AddActivity"
+    data-scope="https://www.googleapis.com/auth/plus.login" data-width="iconOnly">
+  </span>
+</span>
+
+
+
+
+
+<script type="text/javascript">
+    function signinCallback(authResult) {
+        if (authResult['access_token']) {
+            window.location.href = "inbox.html";
+        } else if (authResult['error']) {
+
+        }
+    }
+
+</script>
+ <!-- Place this asynchronous JavaScript just before your </body> tag -->
+    <script type="text/javascript">
+        (function () {
+            var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+            po.src = 'https://apis.google.com/js/client:plusone.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+        })();
+    </script>
+</body>
+</html>

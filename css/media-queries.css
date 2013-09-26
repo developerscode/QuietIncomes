@@ -1,0 +1,150 @@
+/************************************************************************************
+smaller than 980
+*************************************************************************************/
+@media screen and (max-width: 980px) {
+
+	/* pagewrap */
+	#login-box {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin-top: -270px;
+        float: left;
+        margin-left: -200px;
+	}
+
+    .tablet {
+        margin-top: -200px !important;
+    }
+
+    .landingpageLogo {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin-top: -80px;
+        margin-left: -130px;
+    }
+
+	/* content */
+	#content {
+		width: 60%;
+		padding: 3% 4%;
+	}
+
+	/* sidebar */
+	#sidebar {
+		width: 30%;
+	}
+	#sidebar .widget {
+		padding: 8% 7%;
+		margin-bottom: 10px;
+	}
+
+	/* embedded videos */
+	.video embed,
+	.video object,
+	.video iframe {
+		width: 100%;
+		height: auto;
+		min-height: 300px;
+	}
+
+}
+
+/************************************************************************************
+smaller than 650
+*************************************************************************************/
+@media screen and (max-width: 650px) {
+
+    #login-box {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin-top: -300px;
+        float: left;
+        margin-left: -210px;
+    }
+
+    .landingpageLogo {
+            float: left;
+            margin-top: -60px;
+            margin-left: -150px;
+            width: 293px;
+            height: 93px;
+         }
+    .tablet {
+        margin-top: -130px !important
+    }
+    
+    ul.dashboardMenu
+    {
+        float:left;
+        width:410px;
+        margin-left: -15px;
+        overflow: hidden
+    }
+
+    ul.dashboardMenu li
+    {
+        float: left;
+        width:100px;
+        margin: 0px 15px;
+        list-style: none;
+        font-family: Arial,Helvetica,sans-serif;
+        font-size: 12px;
+        margin-bottom: 40px;
+    }
+    
+    
+}
+
+/************************************************************************************
+smaller than 560
+*************************************************************************************/
+@media screen and (max-width: 480px) {
+
+
+	#login-box {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin-top: -310px;
+        float: left;
+        margin-left: -210px;
+    }
+
+    .tablet {
+        margin-top: -200px !important
+    }
+
+    #login-box h2 {
+	padding:0;
+	margin:0;
+	color: #371b1b;
+	font: bold 44px "Calibri", Arial;
+    float: left;
+    padding-left: 0px;
+    }
+
+    .landingpageLogo {
+            float: left;
+            margin-top: -60px;
+            margin-left: -140px;
+            width: 293px;
+            height: 93px;
+         }
+         
+    ul.dashboardMenu li
+    {
+        float: left;
+        width:90px;
+        margin: 0px 0px;
+        list-style: none;
+        font-family: Arial,Helvetica,sans-serif;
+        font-size: 12px;
+        margin-bottom: 40px;
+    }    
+    
+
+}
+

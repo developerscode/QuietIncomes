@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Linkedin</title>
+</head>
+<body>
+<div id="loginbadge">
+
+</div>
+
+
+<script type="text/javascript" src="http://platform.linkedin.com/in.js">
+    api_key: ovr73t473m02
+    authorize: true
+    onLoad: onLinkedInLoad
+    scope: r_emailaddress
+</script>
+<script type="text/javascript">
+    function onLinkedInLoad() {
+        alert("k");
+        IN.User.authorize();
+        IN.Event.on(IN, "auth", function () { onLinkedInLogin(); });
+    }
+    function onLinkedInLogin() {
+        window.location.href = "inbox.html";
+    }
+   
+</script>
+
+
+
+
+</body>
+</html>

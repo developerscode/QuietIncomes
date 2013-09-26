@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Main</title>
+</head>
+<body>
+<div id="loginbadge">
+<p>Login badge renders here if the current user is authorized.</p>
+</div>
+<script type="text/javascript" src="http://platform.linkedin.com/in.js">
+    api_key: ycxlxhqsl4z6
+    authorize: true
+    onLoad: onLinkedInLoad
+    scope: r_emailaddress
+</script>
+<script type="text/javascript">
+    function onLinkedInLoad() {
+        IN.Event.on(IN, "logout", function () { onLinkedInLogout(); });
+    }
+    function onLinkedInLogout() {
+        setLoginBadge(false);
+    }
+
+    function setLoginBadge(profile) {
+        if (!profile) {
+            profHTML = "<p>You are not logged in</p>";
+            window.location.href = "main.html";
+        }
+        else {
+            var pictureUrl = profile.pictureUrl || "http://static02.linkedin.com/scds/common/u/img/icon/icon_no_photo_80x80.png";
+            profHTML = "<p><a href=\"" + profile.publicProfileUrl + "\">";
+            profHTML = profHTML + "<img align=\"baseline\" src=\"" + pictureUrl + "\"></a>";
+            profHTML = profHTML + "&nbsp; Welcome <a href=\"" + profile.publicProfileUrl + "\">";
+            profHTML = profHTML + profile.firstName + " " + profile.lastName + " " + profile.emailAddress + "</a>! <a href=\"#\" onclick=\"IN.User.logout(); return false;\">logout</a></p>";
+        }        
+    }
+
+</script>
+</body>
+</html>

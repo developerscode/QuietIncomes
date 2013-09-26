@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <!-- disable iPhone inital scale -->
+    <meta name="viewport" content="width=device-width; initial-scale=1.0">
+    <title>quietincomes</title>
+    <link rel="stylesheet" href="css/common-styles.css" type="text/css" />
+    <!-- media queries css -->
+    <!--<link rel="stylesheet" href="css/media-queries.css" type="text/css" />-->
+   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        getMembers();
+        getSentInfo();
+    });
+    function getMembers() {
+
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "http://web.developerscodeapps.com/getdata.aspx/GetMemberDetails",
+            data: "{}",
+            dataType: 'json',
+            crossDomain: true,
+            success: function (data) {
+                var today = new Date();
+                $("#lblMemberTitle").text(data.d[0].MemberTitle);
+                $("#lblUserName").text(data.d[0].FullNmae);
+                $("#lblDream").text(data.d[0].AboutMe);
+                $("#lblNextGoal").text(data.d[0].GoalText1);
+                $("#lblStatus").text(data.d[0].AccountStatusID);
+                $("#lb1Inboxcount").text(data.d[0].InboxCount);
+                $("#lblSentCount").text(data.d[0].SentCount);
+                $("#lblAchivedCount").text(data.d[0].ArchiveCount);
+
+            },
+            error: function (result) {
+                alert("Error");
+            }
+        });
+    }
+    function getSentInfo() {
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "http://web.developerscodeapps.com/getdata.aspx/GetSentDetails",
+            data: "{}",
+            dataType: 'json',
+            crossDomain: true,
+            success: function (data) {
+                var htmtext = "";
+                
+                for (var i = 0; i < data.d.length; i++) {
+                    // here showing the InboxDetails Info                    
+                    var serverdate = FormatDate(data.d[i].EmailDate1);
+                    htmtext = htmtext + "<div class='viewbox'><div class='user'><img src='http://web.developerscodeapps.com/images/smallprofile_pic_18.jpg' alt='profilepic' /> <div class='userinfo'><p>" + data.d[i].ToMemberName1 + "</p><p>" + data.d[i].FromMemberName1 + "</p><p><span><img src='http://web.developerscodeapps.com/images/calendar_21.jpg' alt='calendar' />" + serverdate + "</span></p></div></div><div class='userrightalignment'><input class='commentbox' type='text' title='Enter your reply here' value='" + data.d[i].Message1 + "' readonly   /><div class='button' style='padding-left: 1%'><div id='Reminder" + i + "'><input class='btnreminder' name='q" + i + "' value='Reminder' type='button' title='Reminder'  /><input class='btnarchive' name='q" + i + "' value='Archive' type='button' title='Archive'  /></div></div></div></div>";                    
+                }
+                document.getElementById('lblHtmlforInbox').innerHTML = htmtext;
+            },
+            error: function (result) {
+                alert("Error");
+            }
+        });
+       
+        function FormatDate(dates) {
+            var d = dates.split(' ');
+            var curr_date = d[0];
+            return curr_date;
+        }
+    }
+</script> 
+</head>
+<body>
+<div id="wrapper">
+<div id="login-box">
+ <h1 style="color:#D5974E"><img
+src="images/quiteincomesinboxlogo_03.jpg" alt="Quite Incomes"/></h1>
+<div class="personinfo">
+	<img src="images/profilepic.jpg" alt="profilepic" />
+    <div class="info">
+    <p><label id="lblMemberTitle" runat="server" />:<label id="lblUserName" runat="server"></label></p>
+    <p><span>Dream</span> : <label id="lblDream" runat="server"></label></p>
+    <p><span>Next Goal</span> :  <label id="lblNextGoal" runat="server"></label></p>
+    <p><span>Status</span> : <label id="lblStatus" runat="server" /></p>
+    </div><!--info closed here-->  
+</div><!--personal info closed here-->
+<div id="menubar">
+<ul>
+	<li><a href="inbox.html"><span>New Message</span> <span class="number"><label id="lb1Inboxcount" runat="server"></label></span></a></li>
+    <li><a href="sent.html"><span>Sent Messages</span> <span class="number"><label id="lblSentCount" runat="server"></label></span></a></li>
+    <li><a href="archive.html"><span>Archived Messages</span> <span class="number"><label id="lblAchivedCount" runat="server"></label></span></a></li>
+</ul>
+</div><!--menubar closed here-->
+<div><label id="lblHtmlforInbox" ></label></div>   
+ 
+</div>
+    
+</div>
+</body>
+</html>
