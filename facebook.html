@@ -22,12 +22,12 @@
     function login() {
         FB.getLoginStatus(function (r) {
             if (r.status === 'connected') {
-                window.location.href = 'inbox.html';
+                window.location = 'inbox.html';
             } else {
                 FB.login(function (response) {
                     if (response.authResponse) {
                         //if (response.perms)
-                        window.location.href = 'inbox.html';
+                        window.location = 'inbox.html';
                     } else {
                         // user is not logged in
                     }

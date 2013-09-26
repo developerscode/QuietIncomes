@@ -25,7 +25,7 @@
 <script type="text/javascript">
     function signinCallback(authResult) {
         if (authResult['access_token']) {
-            window.location.href = "inbox.html";
+            window.location = "inbox.html";
         } else if (authResult['error']) {
 
         }
