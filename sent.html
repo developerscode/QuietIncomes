@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <!-- disable iPhone inital scale -->
     <meta name="viewport" content="width=device-width; initial-scale=1.0">
-    <title>quietincomes</title>
+    <title>quietincomes - Sent Messages</title>
     <link rel="stylesheet" href="css/common-styles.css" type="text/css" />
     <!-- media queries css -->
     <!--<link rel="stylesheet" href="css/media-queries.css" type="text/css" />-->
@@ -19,7 +19,7 @@
         $.ajax({
             type: "POST",
             contentType: "application/json; charset=utf-8",
-            url: "http://web.developerscodeapps.com/getdata.aspx/GetMemberDetails",
+            url: "getdata.aspx/GetMemberDetails",
             data: "{}",
             dataType: 'json',
             crossDomain: true,
@@ -44,7 +44,7 @@
         $.ajax({
             type: "POST",
             contentType: "application/json; charset=utf-8",
-            url: "http://web.developerscodeapps.com/getdata.aspx/GetSentDetails",
+            url: "getdata.aspx/GetSentDetails",
             data: "{}",
             dataType: 'json',
             crossDomain: true,
@@ -54,7 +54,7 @@
                 for (var i = 0; i < data.d.length; i++) {
                     // here showing the InboxDetails Info                    
                     var serverdate = FormatDate(data.d[i].EmailDate1);
-                    htmtext = htmtext + "<div class='viewbox'><div class='user'><img src='http://web.developerscodeapps.com/images/smallprofile_pic_18.jpg' alt='profilepic' /> <div class='userinfo'><p>" + data.d[i].ToMemberName1 + "</p><p>" + data.d[i].FromMemberName1 + "</p><p><span><img src='http://web.developerscodeapps.com/images/calendar_21.jpg' alt='calendar' />" + serverdate + "</span></p></div></div><div class='userrightalignment'><input class='commentbox' type='text' title='Enter your reply here' value='" + data.d[i].Message1 + "' readonly   /><div class='button' style='padding-left: 1%'><div id='Reminder" + i + "'><input class='btnreminder' name='q" + i + "' value='Reminder' type='button' title='Reminder'  /><input class='btnarchive' name='q" + i + "' value='Archive' type='button' title='Archive'  /></div></div></div></div>";                    
+                    htmtext = htmtext + "<div class='viewbox'><div class='user'><img src='images/smallprofile_pic_18.jpg' alt='profilepic' /> <div class='userinfo'><p>" + data.d[i].ToMemberName1 + "</p><p>" + data.d[i].FromMemberName1 + "</p><p><span><img src='http://web.developerscodeapps.com/images/calendar_21.jpg' alt='calendar' />" + serverdate + "</span></p></div></div><div class='userrightalignment'><input class='commentbox' type='text' title='Enter your reply here' value='" + data.d[i].Message1 + "' readonly   /><div class='button' style='padding-left: 1%'><input type='checkbox' id='chk" + i + "' value='" + data.d[i].InboxId + "' /></div></div></div>";                    
                 }
                 document.getElementById('lblHtmlforInbox').innerHTML = htmtext;
             },
@@ -70,11 +70,129 @@
         }
     }
 </script> 
+ <script type="text/javascript">
+
+     function funArchive() {
+         var chkId = "";
+         for (var i = 0; i < document.forms[0].elements.length; i++) {
+             if (document.forms[0].elements[i].type == 'checkbox') {
+
+
+                 if (document.forms[0].elements[i].checked == true) {
+                     chkId =chkId+ document.forms[0].elements[i].value+',';                    
+
+
+                 }
+
+             }
+         }
+          if (chkId !='') {
+
+              $.ajax({
+                  type: "POST",
+                  contentType: "application/json; charset=utf-8",
+                  url: "getdata.aspx/MoveToArchive",
+                  data: "{'Id':'" + chkId.toString() + "'}",
+                  dataType: 'json',
+                  crossDomain: true,
+                  success: function (data) {
+                      alert(data.d.toString());
+                      getMembers();
+                      getSentInfo();
+
+                  },
+                  error: function (result) {
+                      alert("Error");
+                  }
+              });
+         }
+         else {
+             alert("Please select atleast on message");
+         }
+     }
+
+     function fnRemainder() {
+         var chkId = "";
+         for (var i = 0; i < document.forms[0].elements.length; i++) {
+             if (document.forms[0].elements[i].type == 'checkbox') {
+
+
+                 if (document.forms[0].elements[i].checked == true) {
+                     chkId = chkId + document.forms[0].elements[i].value + ',';  
+                    
+                 }
+
+             }
+         }
+         if (chkId !='') {
+             $.ajax({
+                 type: "POST",
+                 contentType: "application/json; charset=utf-8",
+                 url: "getdata.aspx/MoveToRemainder",
+                 data: "{'Id':'" + chkId.toString() + "'}",
+                 dataType: 'json',
+                 crossDomain: true,
+                 success: function (data) {
+                     alert(data.d.toString());
+                     getMembers();
+                     getSentInfo();
+
+                 },
+                 error: function (result) {
+                     alert("Error");
+                 }
+             });
+         }
+         else {
+             alert("Please select atleast on message");
+         }
+     }
+
+     function funDelete() {
+         var chkId = "";
+         for (var i = 0; i < document.forms[0].elements.length; i++) {
+             if (document.forms[0].elements[i].type == 'checkbox') {
+
+
+                 if (document.forms[0].elements[i].checked == true) {
+                     chkId = chkId + document.forms[0].elements[i].value + ',';
+
+
+                 }
+
+             }
+         }
+         if (chkId != '') {
+
+             $.ajax({
+                 type: "POST",
+                 contentType: "application/json; charset=utf-8",
+                 url: "getdata.aspx/DeleteMEssages",
+                 data: "{'Id':'" + chkId.toString() + "'}",
+                 dataType: 'json',
+                 crossDomain: true,
+                 success: function (data) {
+                     alert(data.d.toString());
+                     getMembers();
+                     getSentInfo();
+
+                 },
+                 error: function (result) {
+                     alert("Error");
+                 }
+             });
+         }
+         else {
+             alert("Please select atleast on message");
+         }
+     }
+    </script>
 </head>
 <body>
+ <form  action="">
 <div id="wrapper">
 <div id="login-box">
- <h1 style="color:#D5974E"><img
+ <h1 class="sub1"><img
 src="images/quiteincomesinboxlogo_03.jpg" alt="Quite Incomes"/></h1>
 <div class="personinfo">
 	<img src="images/profilepic.jpg" alt="profilepic" />
@@ -92,10 +210,22 @@ src="images/quiteincomesinboxlogo_03.jpg" alt="Quite Incomes"/></h1>
     <li><a href="archive.html"><span>Archived Messages</span> <span class="number"><label id="lblAchivedCount" runat="server"></label></span></a></li>
 </ul>
 </div><!--menubar closed here-->
-<div><label id="lblHtmlforInbox" ></label></div>   
+ <div>
+ <table>
+ <tr>
+ <td style="white-space:nowrap;"><input type="button" onclick="funArchive()" id="btnArchive" runat="server" class="archieve"  value="Archive"  title="ArchiveMessages" width="70px" height="10px"/></td>
+ <td style="white-space:nowrap;"><input type="button" onclick="fnRemainder()" id="btnRemainder" runat="server" class="btnreminder"  value="Remainder"  title="Archive" width="70px" height="10px"/></td>
+ <td style="white-space:nowrap;"><input type="button" onclick="funDelete()" id="btnDelete" runat="server" class="archieve"  value="Delete"  title="ArchiveMessages" width="70px" height="10px"/></td>
+ </tr>
+ <tr><td colspan="3"><label id="lblHtmlforInbox" /></td></tr> </table>
+ 
+ 
+ 
  
 </div>
     
 </div>
+</div>
+</form>
 </body>
 </html>
