@@ -11,6 +11,7 @@ using System.Data.SqlClient;
 
 public partial class GetData : System.Web.UI.Page
 {
+    public int memberid;
     // MemberDetails class declaration 
     public class MemberDetails
     {
@@ -36,7 +37,9 @@ public partial class GetData : System.Web.UI.Page
         public string ToMemberName { get; set; }
         public bool IsArchive { get; set; }
         public bool IsReminder { get; set; }
-        public int InboxId { get;set;}
+        public int InboxId { get; set; }
+        public int FromMemberId { get; set; }
+        public int ToMemberID { get; set; }
 
     }
     public class SentBoxDetails
@@ -55,14 +58,22 @@ public partial class GetData : System.Web.UI.Page
         public string FromMemberName1 { get; set; }
         public string FromImageName1 { get; set; }
         public string EmailDate1 { get; set; }
+        public string Subject1 { get; set; }
         public string Message1 { get; set; }
         public int InboxId { get; set; }
+        public int FromMemberId { get; set; }
+        public int ToMemberID { get; set; }
+
 
     }
-    
+
     protected void Page_Load(object sender, EventArgs e)
     {
         // nothing here 
+         memberid = 10000000;
+        
+        
+
     }
 
     [WebMethod]
@@ -77,7 +88,7 @@ public partial class GetData : System.Web.UI.Page
         {
             using (SqlCommand command = new SqlCommand("[mboGetMemerDetails]", con))
             {
-                command.Parameters.Add("@MemberID", SqlDbType.VarChar).Value = 10000031;// 10000031;
+                command.Parameters.Add("@MemberID", SqlDbType.VarChar).Value = 10000000;// 10000031;// 10000031;
                 command.CommandType = CommandType.StoredProcedure;
                 con.Open();
                 command.ExecuteNonQuery();
@@ -120,7 +131,7 @@ public partial class GetData : System.Web.UI.Page
             using (SqlCommand command = new SqlCommand("[mboGetInboxDetailInfo]", con))
             {
 
-                command.Parameters.Add("@MemberID", SqlDbType.VarChar).Value = 10000031;// 10000031;
+                command.Parameters.Add("@MemberID", SqlDbType.VarChar).Value = 10000000; //10000000;// 10000031;// 10000031;
                 command.CommandType = CommandType.StoredProcedure;
                 con.Open();
                 command.ExecuteNonQuery();
@@ -136,7 +147,9 @@ public partial class GetData : System.Web.UI.Page
                     str.EmailDate = dtrow["EmailDate"].ToString();
                     str.Subject = dtrow["Subject"].ToString();
                     str.Message = dtrow["Message"].ToString();
-                    str.InboxId =Convert.ToInt32( dtrow["InboxId"].ToString());
+                    str.InboxId = Convert.ToInt32(dtrow["InboxId"].ToString());
+                    str.FromMemberId = Convert.ToInt32(dtrow["FromMemberId"].ToString());
+                    str.ToMemberID = Convert.ToInt32(dtrow["ToMemberID"].ToString());
                     maildetails.Add(str);
 
                 }
@@ -160,7 +173,7 @@ public partial class GetData : System.Web.UI.Page
             using (SqlCommand command = new SqlCommand("[mboSentItemsDetailInfo]", con))
             {
 
-                command.Parameters.Add("@MemberID", SqlDbType.VarChar).Value = 10000031;// 10000000;// 10000031;
+                command.Parameters.Add("@MemberID", SqlDbType.VarChar).Value = 10000000;// 10000000;// 10000031;
                 command.CommandType = CommandType.StoredProcedure;
                 con.Open();
                 command.ExecuteNonQuery();
@@ -188,17 +201,61 @@ public partial class GetData : System.Web.UI.Page
 
 
     }
-    
+    [WebMethod]
+    public static ArchiveDetails[] GetArchiveDetails()
+    {
+
+        DataTable dt = new DataTable();
+
+        List<ArchiveDetails> sentMaildetails = new List<ArchiveDetails>();
+        string strConnString = ConfigurationManager.ConnectionStrings["dbConnection"].ConnectionString;
+        using (SqlConnection con = new SqlConnection(strConnString))
+        {
+            using (SqlCommand command = new SqlCommand("[mboArchivedItemsDetailInfo]", con))
+            {
+
+                command.Parameters.Add("@MemberID", SqlDbType.VarChar).Value = 10000000;// 10000031;// 10000000;// 10000031;
+                command.CommandType = CommandType.StoredProcedure;
+                con.Open();
+                command.ExecuteNonQuery();
+                SqlDataAdapter da = new SqlDataAdapter();
+                da.SelectCommand = command;
+                da.Fill(dt);
+                foreach (DataRow dtrow in dt.Rows)
+                {
+
+                    ArchiveDetails senttr = new ArchiveDetails();
+                    senttr.ToMemberName1 = dtrow["ToMemberName"].ToString();
+                    senttr.FromMemberName1 = dtrow["FromMemberName"].ToString();
+                    senttr.FromImageName1 = dtrow["FromImageName"].ToString();
+                    senttr.EmailDate1 = dtrow["EmailDate"].ToString();
+                    senttr.Subject1 = dtrow["Subject"].ToString();
+                    senttr.Message1 = dtrow["Message"].ToString();
+                    senttr.InboxId = Convert.ToInt32(dtrow["InboxId"].ToString());
+                    senttr.FromMemberId = Convert.ToInt32(dtrow["FromMemberId"].ToString());
+                    senttr.ToMemberID = Convert.ToInt32(dtrow["ToMemberID"].ToString());
+
+                    sentMaildetails.Add(senttr);
+
+                }
+
+            }
+
+        }
+        return sentMaildetails.ToArray();
+
+
+    }
     [WebMethod]
     public static string getmyvalue()
     {
         return "tanisha";
     }
-     [WebMethod]
+    [WebMethod]
     public static string MoveToArchive(string Id)
     {
-         
-        DataSet ds=new DataSet();
+
+        DataSet ds = new DataSet();
         string msg = "";
         string strConnString = ConfigurationManager.ConnectionStrings["dbConnection"].ConnectionString;
         using (SqlConnection con = new SqlConnection(strConnString))
@@ -213,128 +270,126 @@ public partial class GetData : System.Web.UI.Page
                 SqlDataAdapter da = new SqlDataAdapter();
                 da.SelectCommand = command;
                 da.Fill(ds);
-                if(ds.Tables[0].Rows.Count > 0 )
+                if (ds.Tables[0].Rows.Count > 0)
                 {
                     msg = "your messages(S) are successfully moved to Archive";
                 }
                 else
                 {
-                    msg="Error occurred";
+                    msg = "Error occurred";
                 }
-               
+
             }
 
         }
         return msg;
     }
 
-     [WebMethod]
-     public static string DeleteMEssages(string Id)
-     {
+    [WebMethod]
+    public static string DeleteMEssages(string Id)
+    {
 
-         DataSet ds = new DataSet();
-         string msg = "";
-         string strConnString = ConfigurationManager.ConnectionStrings["dbConnection"].ConnectionString;
-         using (SqlConnection con = new SqlConnection(strConnString))
-         {
-             using (SqlCommand command = new SqlCommand("[mboDeleteMessages]", con))
-             {
+        DataSet ds = new DataSet();
+        string msg = "";
+        string strConnString = ConfigurationManager.ConnectionStrings["dbConnection"].ConnectionString;
+        using (SqlConnection con = new SqlConnection(strConnString))
+        {
+            using (SqlCommand command = new SqlCommand("[mboDeleteMessages]", con))
+            {
 
-                 command.Parameters.Add("@InboxID", SqlDbType.VarChar).Value = Id;// 10000000;// 10000031;
-                 command.CommandType = CommandType.StoredProcedure;
-                 con.Open();
-                 command.ExecuteNonQuery();
-                 SqlDataAdapter da = new SqlDataAdapter();
-                 da.SelectCommand = command;
-                 da.Fill(ds);
-                 if (ds.Tables[0].Rows.Count > 0)
-                 {
-                     msg = "your messages(S) are successfully Deleted";
-                 }
-                 else
-                 {
-                     msg = "Error occurred";
-                 }
+                command.Parameters.Add("@InboxID", SqlDbType.VarChar).Value = Id;// 10000000;// 10000031;
+                command.CommandType = CommandType.StoredProcedure;
+                con.Open();
+                command.ExecuteNonQuery();
+                SqlDataAdapter da = new SqlDataAdapter();
+                da.SelectCommand = command;
+                da.Fill(ds);
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    msg = "your messages(S) are successfully Deleted";
+                }
+                else
+                {
+                    msg = "Error occurred";
+                }
 
-             }
+            }
 
-         }
-         return msg;
-     }
-     [WebMethod]
-     public static string MoveToRemainder(string Id)
-     {
+        }
+        return msg;
+    }
+    [WebMethod]
+    public static string MoveToRemainder(string Id)
+    {
 
-         DataSet ds = new DataSet();
-         string msg = "";
-         string strConnString = ConfigurationManager.ConnectionStrings["dbConnection"].ConnectionString;
-         using (SqlConnection con = new SqlConnection(strConnString))
-         {
-             using (SqlCommand command = new SqlCommand("[mboMoveToIsReminder]", con))
-             {
+        DataSet ds = new DataSet();
+        string msg = "";
+        string strConnString = ConfigurationManager.ConnectionStrings["dbConnection"].ConnectionString;
+        using (SqlConnection con = new SqlConnection(strConnString))
+        {
+            using (SqlCommand command = new SqlCommand("[mboMoveToIsReminder]", con))
+            {
 
-                 command.Parameters.Add("@InboxID", SqlDbType.VarChar).Value = Id;// 10000000;// 10000031;
-                 command.CommandType = CommandType.StoredProcedure;
-                 con.Open();
-                 command.ExecuteNonQuery();
-                 SqlDataAdapter da = new SqlDataAdapter();
-                 da.SelectCommand = command;
-                 da.Fill(ds);
-                 if (ds.Tables[0].Rows.Count > 0)
-                 {
-                     msg = "your messages(S) are successfully moved to Reminder";
-                 }
-                 else
-                 {
-                     msg = "Error occurred";
-                 }
+                command.Parameters.Add("@InboxID", SqlDbType.VarChar).Value = Id;// 10000000;// 10000031;
+                command.CommandType = CommandType.StoredProcedure;
+                con.Open();
+                command.ExecuteNonQuery();
+                SqlDataAdapter da = new SqlDataAdapter();
+                da.SelectCommand = command;
+                da.Fill(ds);
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    msg = "your messages(S) are successfully moved to Reminder";
+                }
+                else
+                {
+                    msg = "Error occurred";
+                }
 
-             }
+            }
 
-         }
-         return msg;
-     }
-     [WebMethod]
-     public static ArchiveDetails[] GetArchiveDetails()
-     {
+        }
+        return msg;
+    }
+  
+    [WebMethod]
+    public static string sendmessages(string frmId, string toid, string RepMesg)
+    {
 
-         DataTable dt = new DataTable();
+        DataSet ds = new DataSet();
+        string msg = "";
+        string strConnString = ConfigurationManager.ConnectionStrings["dbConnection"].ConnectionString;
+        using (SqlConnection con = new SqlConnection(strConnString))
+        {
+            using (SqlCommand command = new SqlCommand("[mboArchiveReplayMessage]", con))
+            {
 
-         List<ArchiveDetails> sentMaildetails = new List<ArchiveDetails>();
-         string strConnString = ConfigurationManager.ConnectionStrings["dbConnection"].ConnectionString;
-         using (SqlConnection con = new SqlConnection(strConnString))
-         {
-             using (SqlCommand command = new SqlCommand("[mboArchivedItemsDetailInfo]", con))
-             {
+                command.Parameters.Add("@FromMemberID", SqlDbType.VarChar).Value = Convert.ToInt32(frmId);
+                command.Parameters.Add("@ToMemberID", SqlDbType.VarChar).Value = Convert.ToInt32(toid);
+                command.Parameters.Add("@Subject", SqlDbType.VarChar).Value = "";
+                // 10000000;// 10000031;
+                command.Parameters.Add("@ReplyText", SqlDbType.VarChar).Value = RepMesg;
+                command.CommandType = CommandType.StoredProcedure;
+                con.Open();
+                command.ExecuteNonQuery();
+                SqlDataAdapter da = new SqlDataAdapter();
+                da.SelectCommand = command;
+                da.Fill(ds);
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    msg = "your messages(S) are successfully sent";
+                }
+                else
+                {
+                    msg = "Error occurred";
+                }
 
-                 command.Parameters.Add("@MemberID", SqlDbType.VarChar).Value = 10000031;// 10000000;// 10000031;
-                 command.CommandType = CommandType.StoredProcedure;
-                 con.Open();
-                 command.ExecuteNonQuery();
-                 SqlDataAdapter da = new SqlDataAdapter();
-                 da.SelectCommand = command;
-                 da.Fill(dt);
-                 foreach (DataRow dtrow in dt.Rows)
-                 {
+            }
 
-                     ArchiveDetails senttr = new ArchiveDetails();
-                     senttr.ToMemberName1 = dtrow["ToMemberName"].ToString();
-                     senttr.FromMemberName1 = dtrow["FromMemberName"].ToString();
-                     senttr.FromImageName1 = dtrow["FromImageName"].ToString();
-                     senttr.EmailDate1 = dtrow["EmailDate"].ToString();
-                     senttr.Message1 = dtrow["Message"].ToString();
-                     senttr.InboxId = Convert.ToInt32(dtrow["InboxId"].ToString());
-                     sentMaildetails.Add(senttr);
+        }
+        return msg;
+    }
 
-                 }
-
-             }
-
-         }
-         return sentMaildetails.ToArray();
-
-
-     }
 
 
 }

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <!-- disable iPhone inital scale -->
     <meta name="viewport" content="width=device-width; initial-scale=1.0">
-    <title>quietincomes - Sent Messages</title>
+    <title>Sent</title>
     <link rel="stylesheet" href="css/common-styles.css" type="text/css" />
     <!-- media queries css -->
     <!--<link rel="stylesheet" href="css/media-queries.css" type="text/css" />-->
@@ -50,11 +50,11 @@
             crossDomain: true,
             success: function (data) {
                 var htmtext = "";
-                
+
                 for (var i = 0; i < data.d.length; i++) {
                     // here showing the InboxDetails Info                    
                     var serverdate = FormatDate(data.d[i].EmailDate1);
-                    htmtext = htmtext + "<div class='viewbox'><div class='user'><img src='images/smallprofile_pic_18.jpg' alt='profilepic' /> <div class='userinfo'><p>" + data.d[i].ToMemberName1 + "</p><p>" + data.d[i].FromMemberName1 + "</p><p><span><img src='http://web.developerscodeapps.com/images/calendar_21.jpg' alt='calendar' />" + serverdate + "</span></p></div></div><div class='userrightalignment'><input class='commentbox' type='text' title='Enter your reply here' value='" + data.d[i].Message1 + "' readonly   /><div class='button' style='padding-left: 1%'><input type='checkbox' id='chk" + i + "' value='" + data.d[i].InboxId + "' /></div></div></div>";                    
+                    htmtext = htmtext + "<div class='viewbox'><div class='user'><img src='images/smallprofile_pic_18.jpg' alt='profilepic' /> <div class='userinfo'><p>" + data.d[i].ToMemberName1 + "</p><p>" + data.d[i].FromMemberName1 + "</p><p><span><img src='http://web.developerscodeapps.com/images/calendar_21.jpg' alt='calendar' />" + serverdate + "</span></p></div></div><div class='userrightalignment'><input class='commentbox' type='text' title='Enter your reply here' value='" + data.d[i].Message1 + "' readonly   /><div class='button' style='padding-left: 1%'><input type='checkbox' id='chk" + i + "' value='" + data.d[i].InboxId + "' /></div></div></div>";
                 }
                 document.getElementById('lblHtmlforInbox').innerHTML = htmtext;
             },
@@ -62,7 +62,7 @@
                 alert("Error");
             }
         });
-       
+
         function FormatDate(dates) {
             var d = dates.split(' ');
             var curr_date = d[0];
@@ -79,32 +79,32 @@
 
 
                  if (document.forms[0].elements[i].checked == true) {
-                     chkId =chkId+ document.forms[0].elements[i].value+',';                    
+                     chkId = chkId + document.forms[0].elements[i].value + ',';
 
 
                  }
 
              }
          }
-          if (chkId !='') {
+         if (chkId != '') {
 
-              $.ajax({
-                  type: "POST",
-                  contentType: "application/json; charset=utf-8",
-                  url: "getdata.aspx/MoveToArchive",
-                  data: "{'Id':'" + chkId.toString() + "'}",
-                  dataType: 'json',
-                  crossDomain: true,
-                  success: function (data) {
-                      alert(data.d.toString());
-                      getMembers();
-                      getSentInfo();
+             $.ajax({
+                 type: "POST",
+                 contentType: "application/json; charset=utf-8",
+                 url: "getdata.aspx/MoveToArchive",
+                 data: "{'Id':'" + chkId.toString() + "'}",
+                 dataType: 'json',
+                 crossDomain: true,
+                 success: function (data) {
+                     alert(data.d.toString());
+                     getMembers();
+                     getSentInfo();
 
-                  },
-                  error: function (result) {
-                      alert("Error");
-                  }
-              });
+                 },
+                 error: function (result) {
+                     alert("Error");
+                 }
+             });
          }
          else {
              alert("Please select atleast on message");
@@ -118,13 +118,13 @@
 
 
                  if (document.forms[0].elements[i].checked == true) {
-                     chkId = chkId + document.forms[0].elements[i].value + ',';  
-                    
+                     chkId = chkId + document.forms[0].elements[i].value + ',';
+
                  }
 
              }
          }
-         if (chkId !='') {
+         if (chkId != '') {
              $.ajax({
                  type: "POST",
                  contentType: "application/json; charset=utf-8",
@@ -195,17 +195,17 @@
  <h1 class="sub1"><img
 src="images/quiteincomesinboxlogo_03.jpg" alt="Quite Incomes"/></h1>
 <div class="personinfo">
-	<img src="images/profilepic.jpg" alt="profilepic" />
+        <img src="images/profilepic.jpg" alt="profilepic" />
     <div class="info">
-    <p><label id="lblMemberTitle" runat="server" />:<label id="lblUserName" runat="server"></label></p>
-    <p><span>Dream</span> : <label id="lblDream" runat="server"></label></p>
-    <p><span>Next Goal</span> :  <label id="lblNextGoal" runat="server"></label></p>
-    <p><span>Status</span> : <label id="lblStatus" runat="server" /></p>
+    <table><tr><td><span><label id="lblMemberTitle" runat="server" /></span>:</td><td><label id="lblUserName" runat="server" ></label></td></tr>
+                <tr><td ><span>Dream:</span></td><td><label id="lblDream" runat="server" /></td></tr>
+                <tr><td > <span>Next Goal:</span></td><td><label id="lblNextGoal" runat="server" /></td></tr>
+                <tr><td><span>Status:</span></td><td><label id="lblStatus" runat="server" /></td></tr></table>
     </div><!--info closed here-->  
 </div><!--personal info closed here-->
 <div id="menubar">
 <ul>
-	<li><a href="inbox.html"><span>New Message</span> <span class="number"><label id="lb1Inboxcount" runat="server"></label></span></a></li>
+        <li><a href="inbox.html"><span>New Message</span> <span class="number"><label id="lb1Inboxcount" runat="server"></label></span></a></li>
     <li><a href="sent.html"><span>Sent Messages</span> <span class="number"><label id="lblSentCount" runat="server"></label></span></a></li>
     <li><a href="archive.html"><span>Archived Messages</span> <span class="number"><label id="lblAchivedCount" runat="server"></label></span></a></li>
 </ul>
@@ -213,11 +213,18 @@ src="images/quiteincomesinboxlogo_03.jpg" alt="Quite Incomes"/></h1>
  <div>
  <table>
  <tr>
- <td style="white-space:nowrap;"><input type="button" onclick="funArchive()" id="btnArchive" runat="server" class="archieve"  value="Archive"  title="ArchiveMessages" width="70px" height="10px"/></td>
- <td style="white-space:nowrap;"><input type="button" onclick="fnRemainder()" id="btnRemainder" runat="server" class="btnreminder"  value="Remainder"  title="Archive" width="70px" height="10px"/></td>
- <td style="white-space:nowrap;"><input type="button" onclick="funDelete()" id="btnDelete" runat="server" class="archieve"  value="Delete"  title="ArchiveMessages" width="70px" height="10px"/></td>
+ <td style="white-space:nowrap;"><input type="button" onclick="funArchive()" id="btnArchive1" runat="server" class="archieve"  value="Archive"  title="ArchiveMessages" width="70px" height="10px"/></td>
+ <td style="white-space:nowrap;"><input type="button" onclick="fnRemainder()" id="btnRemainder1" runat="server" class="btnreminder"  value="Remainder"  title="Archive" width="70px" height="10px"/></td>
+ <td style="white-space:nowrap;"><input type="button" onclick="funDelete()" id="btnDelete1" runat="server" class="archieve"  value="Delete"  title="ArchiveMessages" width="70px" height="10px"/></td>
  </tr>
- <tr><td colspan="3"><label id="lblHtmlforInbox" /></td></tr> </table>
+ <tr><td colspan="3"><label id="lblHtmlforInbox" /></td></tr> 
+ <tr><td style="height:20px;"></td></tr>
+ 
+ <tr>
+ <td style="white-space:nowrap;"><input type="button" onclick="funArchive()" id="btnArchive2" runat="server" class="archieve"  value="Archive"  title="ArchiveMessages" width="70px" height="10px"/></td>
+ <td style="white-space:nowrap;"><input type="button" onclick="fnRemainder()" id="btnRemainder2" runat="server" class="btnreminder"  value="Remainder"  title="Archive" width="70px" height="10px"/></td>
+ <td style="white-space:nowrap;"><input type="button" onclick="funDelete()" id="btnDelete2" runat="server" class="archieve"  value="Delete"  title="ArchiveMessages" width="70px" height="10px"/></td>
+ </tr></table>
  
  
  

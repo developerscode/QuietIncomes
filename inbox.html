@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <!-- disable iPhone inital scale -->
     <meta name="viewport" content="width=device-width; initial-scale=1.0">
-    <title>Quiet Incomes - New Message</title>
+    <title>Inbox</title>
     <link rel="stylesheet" href="css/common-styles.css" type="text/css" />
     <!-- media queries css -->
     <!--<link rel="stylesheet" href="css/media-queries.css" type="text/css" />-->
@@ -13,8 +13,7 @@
 
         $(document).ready(function () {
             getMembers();
-            getInboxInfo();           
-
+            getInboxInfo();
             moveToArchive();
 
 
@@ -58,8 +57,10 @@
                     var htmtext = "";
 
                     for (var i = 0; i < data.d.length; i++) {
+
                         // here showing the InboxDetails Info
-                        htmtext = htmtext + "<div class='viewbox'><div class='user'><img src='images/smallprofile_pic_18.jpg' alt='profilepic' /><div class='userinfo'><p>" + data.d[i].FromMemberName + "</p><p>" + data.d[i].FromMemberTitle + "</p><p><span><img src='images/calendar_21.jpg' alt='calendar' />" + data.d[i].EmailDate + "</span></p></div></div><div class='view' style='width: 100%'><p style='width: 100%; text-align: left'>" + data.d[i].Subject + "</br>" + data.d[i].Message + ",<img style='float: right; margin-top: 10px; margin-right: 22px;' src='images/closed_brackets_30.jpg' alt='closedbrsckets' /></p></div><input id='replybox" + i + "' class='replybox' type='text' title='Enter your reply here' placeholder='Enter your reply here'/><div class='button'><input type='checkbox' id='chk" + i + "' value='" +data.d[i].InboxId +"' /><input class='send' id='send" + i + "' name='q' value='Reply' type='button' title='Archive' width='70px' height='23px' /></div></div>";
+                        var serverdate = FormatDate(data.d[i].EmailDate);
+                        htmtext = htmtext + "<div class='viewbox'><div class='user'><img src='images/smallprofile_pic_18.jpg' alt='profilepic' /><div class='userinfo'><p>" + data.d[i].FromMemberName + "</p><p>" + data.d[i].FromMemberTitle + "</p><p><span><img src='images/calendar_21.jpg' alt='calendar' />" + serverdate + "</span></p></div></div><div class='view' style='width: 100%'><p style='width: 100%; text-align: left'>" + data.d[i].Subject + "</br>" + data.d[i].Message + ",<img style='float: right; margin-top: 10px; margin-right: 22px;' src='images/closed_brackets_30.jpg' alt='closedbrsckets' /></p></div><input id='replybox" + i + "' class='replybox' type='text' title='Enter your reply here' placeholder='Enter your reply here'/><div class='button'><input type='checkbox' id='chk" + i + "' value='" + data.d[i].InboxId +'~'+i+ "' /><input type='hidden' id='txthdFromid"+i+"' value='"+ data.d[i].FromMemberId +"' /><input type='hidden' id='txthdToid"+i+"' value='"+ data.d[i].ToMemberID +"'  /></div></div>";
                     }
                     document.getElementById('lblHtmlforInbox').innerHTML = htmtext;
                 },
@@ -67,6 +68,11 @@
                     alert("Error");
                 }
             });
+            function FormatDate(dates) {
+                var d = dates.split(' ');
+                var curr_date = d[0];
+                return curr_date;
+            }
         }
        
        
@@ -80,14 +86,18 @@
 
 
                     if (document.forms[0].elements[i].checked == true) {
-                        chkId = chkId + document.forms[0].elements[i].value + ',';                      
+                        var n = document.forms[0].elements[i].value.split("~");                      
+                        n = n[0];                        
+                        //chkId = chkId + document.forms[0].elements[i].value + ',';
+                        chkId = chkId + n + ',';
 
 
                     }
 
                 }
             }
-            if (chkId !='') {
+            alert(chkId);          
+            if (chkId != '') {
 
                 $.ajax({
                     type: "POST",
@@ -119,7 +129,10 @@
 
 
                     if (document.forms[0].elements[i].checked == true) {
-                        chkId = chkId + document.forms[0].elements[i].value + ',';
+                        var n = document.forms[0].elements[i].value.split("~");
+                        n = n[0].toString();
+                        //chkId = chkId + document.forms[0].elements[i].value + ',';
+                        chkId = chkId + n + ',';
 
 
                     }
@@ -150,6 +163,83 @@
                 alert("Please select atleast on message");
             }
         }
+
+        function funReplay() {
+            var chkId = "";
+            var replaymsg = "";
+            var chkcount = 0;
+            var msgcount = 0;
+
+            for (var i = 0; i < document.forms[0].elements.length; i++) {
+                if (document.forms[0].elements[i].type == 'checkbox') {
+
+
+                    if (document.forms[0].elements[i].checked == true) {
+                        var n = document.forms[0].elements[i].value.split("~");
+                        var secondvalue = n[1];
+                        alert(secondvalue);
+                        n = n[0].toString();
+                        chkId = n;
+                        chkcount = chkcount + 1;
+
+
+                    }
+
+                }
+            }
+            for (var i = 0; i < document.forms[0].elements.length; i++) {
+                if (document.forms[0].elements[i].type == 'text') {
+
+                    if (document.forms[0].elements[i].value != '') {
+
+
+                        replaymsg = document.forms[0].elements[i].value;
+                        msgcount = msgcount + 1;
+                        alert(replaymsg);
+                    }
+
+                }
+            }
+            var textfromid = "txthdFromid" + secondvalue;
+            var txthdToid = "txthdToid" + secondvalue;
+            alert(document.getElementById(textfromid).value);
+            alert(document.getElementById(txthdToid).value);
+            var frmId = document.getElementById(textfromid).value;
+            var toid = document.getElementById(txthdToid).value;
+            var subject = "";
+            if (chkcount > 1) {
+
+                alert("Please select only one message at a time");
+
+            }
+            else {
+                if (chkId == '') {
+                    alert("Please select message and enter replay message");
+                }
+                else {
+                    alert(replaymsg);
+                    $.ajax({
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        url: "getdata.aspx/sendmessages",
+                        //                        data: "{'Id':'" + chkId.toString() + "','RepMesg':'" + replaymsg.toString() + "'}",
+                        data: "{'frmId':'" + frmId.toString() + "','toid':'" + toid.toString() + "','RepMesg':'" + replaymsg.toString() + "'}",
+                        dataType: 'json',
+                        crossDomain: true,
+                        success: function (data) {
+                            alert(data.d.toString());
+                            getMembers();
+                            getInboxInfo();
+
+                        },
+                        error: function (result) {
+                            alert("Error");
+                        }
+                    });
+                }
+
+            }
+        }
     </script>
 </head>
 
@@ -162,23 +252,10 @@
             <div class="personinfo">
                 <img src="images/profilepic.jpg" alt="profilepic" />
                 <div class="info">
-                    <p>
-                        <label id="lblMemberTitle" runat="server" />
-                        :<label id="lblUserName" runat="server"></label></p>
-                    <p>
-                        <span>Dream</span> :
-                        <label id="lblDream" runat="server">
-                        </label>
-                    </p>
-                    <p>
-                        <span>Next Goal</span> :
-                        <label id="lblNextGoal" runat="server">
-                        </label>
-                    </p>
-                    <p>
-                        <span>Status</span> :
-                        <label id="lblStatus" runat="server" />
-                    </p>
+                <table><tr><td><span><label id="lblMemberTitle" runat="server" /></span>:</td><td><label id="lblUserName" runat="server" ></label></td></tr>
+                <tr><td ><span>Dream:</span></td><td><label id="lblDream" runat="server" /></td></tr>
+                <tr><td > <span>Next Goal:</span></td><td><label id="lblNextGoal" runat="server" /></td></tr>
+                <tr><td><span>Status:</span></td><td><label id="lblStatus" runat="server" /></td></tr></table>                  
                 </div>
                 <!--info closed here-->
             </div>
@@ -196,12 +273,26 @@
                     <li><a href="archive.html"><span>Archived Messages</span> <span class="number">
                         <label id="lblAchivedCount" runat="server">
                         </label>
+                        
                     </span></a></li>
                 </ul>
             </div>
             <!--menubar closed here-->
-            <div><table><tr><td style="white-space:nowrap;"><input type="button" onclick="funArchive()" id="btnArchive" runat="server" class="archieve"  value="Archive"  title="ArchiveMessages" width="70px" height="10px"/></td>
-            <td style="white-space:nowrap;"><input type="button" onclick="funDelete()" id="btnDelete" runat="server" class="archieve"  value="Delete"  title="ArchiveMessages" width="70px" height="10px"/></td></tr><tr><td colspan="2"><label id="lblHtmlforInbox" /></td></tr></table>
+            <div>
+            <table>
+            <tr>
+            <td style="white-space:nowrap;"><input type="button" onclick="funArchive()" id="btnArchive" runat="server" class="archieve"  value="Archive"  title="ArchiveMessages" width="70px" height="10px"/></td>
+            <td style="white-space:nowrap;"><input type="button" onclick="funDelete()" id="btnDelete" runat="server" class="archieve"  value="Delete"  title="ArchiveMessages" width="70px" height="10px"/></td>
+            <td style="white-space:nowrap;"><input type="button" onclick="funReplay()" id="btnReplay" runat="server" class="send"  value="Replay"  title="ArchiveMessages" width="70px" height="10px"/></td>
+            </tr>
+            <tr><td colspan="3"><label id="lblHtmlforInbox" /></td></tr>
+            <tr><td style="height:20px;"></td></tr>
+             <tr>
+            <td style="white-space:nowrap;"><input type="button" onclick="funArchive()" id="btnArchive2" runat="server" class="archieve"  value="Archive"  title="ArchiveMessages" width="70px" height="10px"/></td>
+            <td style="white-space:nowrap;"><input type="button" onclick="funDelete()" id="btnDelete2" runat="server" class="archieve"  value="Delete"  title="ArchiveMessages" width="70px" height="10px"/></td>
+            <td style="white-space:nowrap;"><input type="button" onclick="funReplay()" id="btnReplay2" runat="server" class="send"  value="Replay"  title="ArchiveMessages" width="70px" height="10px"/></td>
+            </tr>
+            </table>
                 
                
             </div>
