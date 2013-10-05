@@ -5,6 +5,40 @@
     <title></title>
 </head>
 <body onload="login();">
+ <script type="text/javascript" charset="utf-8">
+
+     // Wait for Cordova to load
+     //
+     document.addEventListener("deviceready", onDeviceReady, false);
+
+     // Global InAppBrowser reference
+     var iabRef = null;
+
+     function iabLoadStart(event) {
+         alert(event.type + ' - ' + event.url);
+     }
+
+     function iabLoadStop(event) {
+         alert(event.type + ' - ' + event.url);
+     }
+
+     function iabClose(event) {
+         alert(event.type);
+         iabRef.removeEventListener('loadstart', iabLoadStart);
+         iabRef.removeEventListener('loadstop', iabLoadStop);
+         iabRef.removeEventListener('exit', iabClose);
+     }
+
+     // Cordova is ready
+     //
+     function onDeviceReady() {
+         iabRef = window.open('http://apache.org', '_blank', 'location=yes');
+         iabRef.addEventListener('loadstart', iabLoadStart);
+         iabRef.addEventListener('loadstop', iabLoadStop);
+         iabRef.addEventListener('exit', iabClose);
+     }
+
+    </script>
 <div id="fb-root"></div>
 <script type="text/javascript">
 //<![CDATA[
@@ -27,7 +61,7 @@
                 FB.login(function (response) {
                     if (response.authResponse) {
                         //if (response.perms)
-                        window.location = 'inbox.html';
+                        window.open('inbox.html', '_blank', 'location=yes');
                     } else {
                         // user is not logged in
                     }
@@ -38,7 +72,7 @@
     // Load the SDK Asynchronously
     (function () {
         var e = document.createElement('script'); e.async = true;
-        e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
+        e.src = document.location.protocol + 'http://connect.facebook.net/en_US/all.js';
         document.getElementById('fb-root').appendChild(e);
     } ());
 //]]>

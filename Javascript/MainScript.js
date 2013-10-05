@@ -1,15 +1,14 @@
 ﻿//Global Variables Declaration
 
 
-function LinkedinUser()  {
-    window.location = "linkedin.html";
+function LinkedinUser() {
+    window.open('linkedin.html', '_blank', 'location=yes');    
 }
-
 function GoogleUser() {
-    window.location = "google.html";
+    window.open('google.html', '_blank', 'location=yes');    
 }
 function FacebookUser() {
-    window.location = "facebook.html";
+    window.open('facebook.html', '_blank', 'location=yes');    
 }
 function NormalUser() {
     $(':input').inputWatermark();
@@ -27,13 +26,13 @@ function NormalUser() {
         return false;
     }
     else {
-        window.location = 'inbox.html';
+        window.open('inbox.html', '_blank', 'location=yes');
     }
 }    
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //Logout Page
 function logout() {
-    localStorage.clear();
-    window.location = 'index.html';
+    localStorage.clear();    
+    window.open('index.html', '_blank', 'location=yes');
 }
