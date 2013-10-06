@@ -2,13 +2,13 @@
 
 
 function LinkedinUser() {
-    window.open('linkedin.html', '_blank', 'location=yes');    
+    window.location.href = 'linkedin.html';
 }
 function GoogleUser() {
-    window.open('google.html', '_blank', 'location=yes');    
+    window.location.href = 'google.html';
 }
 function FacebookUser() {
-    window.open('facebook.html', '_blank', 'location=yes');    
+    window.location.href = 'facebook.html';
 }
 function NormalUser() {
     $(':input').inputWatermark();
@@ -26,13 +26,17 @@ function NormalUser() {
         return false;
     }
     else {
-        window.open('inbox.html', '_blank', 'location=yes');
+        if (typeof (Storage) !== "undefined") {
+            localStorage.uname = uname;
+            localStorage.pwd = pword;
+        }
+        window.location.href = 'inbox.html';
     }
 }    
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //Logout Page
 function logout() {
-    localStorage.clear();    
-    window.open('index.html', '_blank', 'location=yes');
+    localStorage.clear();
+    window.location.href = 'index.html';
 }
