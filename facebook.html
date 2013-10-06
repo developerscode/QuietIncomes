@@ -12,7 +12,7 @@
     window.fbAsyncInit = function () {
         FB.init({
             appId: '480064372101222', // App ID
-            channelURL: '', // Channel File, not required so leave empty
+            channelURL: 'inbox.html', // Channel File, not required so leave empty
             status: true, // check login status
             cookie: true, // enable cookies to allow the server to access the session
             oauth: true, // enable OAuth 2.0
@@ -28,7 +28,7 @@
                 FB.login(function (response) {
                     if (response.authResponse) {
                         //if (response.perms)
-                        window.open('inbox.html', '_blank', 'location=yes');
+                        window.location = 'inbox.html';
                     } else {
                         // user is not logged in
                     }
@@ -36,12 +36,19 @@
             }
         });
     }
-    // Load the SDK Asynchronously
-    (function () {
-        var e = document.createElement('script'); e.async = true;
-        e.src = document.location.protocol + 'http://connect.facebook.net/en_US/all.js';
-        document.getElementById('fb-root').appendChild(e);
-    } ());
+   // Load the SDK Asynchronously
+(function (d) {
+    var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+    if (d.getElementById(id)) {
+        return;
+    }
+    js = d.createElement('script');
+    js.id = id;
+    js.async = true;
+    js.src = "http://connect.facebook.net/en_US/all.js";
+    ref.parentNode.insertBefore(js, ref);
+} (document));
+
 //]]>
 </script>
 </body>
