@@ -7,7 +7,7 @@
     <title>Inbox</title>
     <link rel="stylesheet" href="css/common-styles.css" type="text/css" />
     <!-- media queries css -->
-    <script type="text/javascript" src="Javascript/cordova.js"></script>
+    <!--<link rel="stylesheet" href="css/media-queries.css" type="text/css" />-->
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
     <script type="text/javascript">
 
@@ -164,17 +164,17 @@
             }
         }
 
-        function funReplay() {
+        function funInboxReplay() {
             var chkId = "";
             var replaymsg = "";
             var chkcount = 0;
             var msgcount = 0;
-
             for (var i = 0; i < document.forms[0].elements.length; i++) {
                 if (document.forms[0].elements[i].type == 'checkbox') {
 
 
                     if (document.forms[0].elements[i].checked == true) {
+                        //                    chkId = document.forms[0].elements[i].value;
                         var n = document.forms[0].elements[i].value.split("~");
                         var secondvalue = n[1];
                         alert(secondvalue);
@@ -182,24 +182,26 @@
                         chkId = n;
                         chkcount = chkcount + 1;
 
-
                     }
 
                 }
             }
+
             for (var i = 0; i < document.forms[0].elements.length; i++) {
                 if (document.forms[0].elements[i].type == 'text') {
 
                     if (document.forms[0].elements[i].value != '') {
 
-
                         replaymsg = document.forms[0].elements[i].value;
-                        msgcount = msgcount + 1;
                         alert(replaymsg);
+                        msgcount = msgcount + 1;
                     }
 
                 }
             }
+
+
+
             var textfromid = "txthdFromid" + secondvalue;
             var txthdToid = "txthdToid" + secondvalue;
             alert(document.getElementById(textfromid).value);
@@ -207,22 +209,25 @@
             var frmId = document.getElementById(textfromid).value;
             var toid = document.getElementById(txthdToid).value;
             var subject = "";
+
             if (chkcount > 1) {
 
                 alert("Please select only one message at a time");
 
             }
             else {
+
                 if (chkId == '') {
                     alert("Please select message and enter replay message");
+
                 }
                 else {
-                    alert(replaymsg);
+
                     $.ajax({
                         type: "POST",
                         contentType: "application/json; charset=utf-8",
-                        url: "getdata.aspx/sendmessages",
-                        //                        data: "{'Id':'" + chkId.toString() + "','RepMesg':'" + replaymsg.toString() + "'}",
+                        url: "getdata.aspx/ReplayfromInbox",
+                        // data: "{'Id':'" + chkId.toString() + "','RepMesg':'" + replaymsg.toString() + "'}",
                         data: "{'frmId':'" + frmId.toString() + "','toid':'" + toid.toString() + "','RepMesg':'" + replaymsg.toString() + "'}",
                         dataType: 'json',
                         crossDomain: true,
@@ -237,8 +242,8 @@
                         }
                     });
                 }
-
             }
+
         }
     </script>
 </head>
@@ -283,14 +288,14 @@
             <tr>
             <td style="white-space:nowrap;"><input type="button" onclick="funArchive()" id="btnArchive" runat="server" class="archieve"  value="Archive"  title="ArchiveMessages" width="70px" height="10px"/></td>
             <td style="white-space:nowrap;"><input type="button" onclick="funDelete()" id="btnDelete" runat="server" class="archieve"  value="Delete"  title="ArchiveMessages" width="70px" height="10px"/></td>
-            <td style="white-space:nowrap;"><input type="button" onclick="funReplay()" id="btnReplay" runat="server" class="send"  value="Replay"  title="ArchiveMessages" width="70px" height="10px"/></td>
+            <td style="white-space:nowrap;"><input type="button" onclick="funInboxReplay()" id="btnReplay" runat="server" class="send"  value="Replay"  title="ArchiveMessages" width="70px" height="10px"/></td>
             </tr>
             <tr><td colspan="3"><label id="lblHtmlforInbox" /></td></tr>
             <tr><td style="height:20px;"></td></tr>
              <tr>
             <td style="white-space:nowrap;"><input type="button" onclick="funArchive()" id="btnArchive2" runat="server" class="archieve"  value="Archive"  title="ArchiveMessages" width="70px" height="10px"/></td>
             <td style="white-space:nowrap;"><input type="button" onclick="funDelete()" id="btnDelete2" runat="server" class="archieve"  value="Delete"  title="ArchiveMessages" width="70px" height="10px"/></td>
-            <td style="white-space:nowrap;"><input type="button" onclick="funReplay()" id="btnReplay2" runat="server" class="send"  value="Replay"  title="ArchiveMessages" width="70px" height="10px"/></td>
+            <td style="white-space:nowrap;"><input type="button" onclick="funInboxReplay()" id="btnReplay2" runat="server" class="send"  value="Replay"  title="ArchiveMessages" width="70px" height="10px"/></td>
             </tr>
             </table>
                 

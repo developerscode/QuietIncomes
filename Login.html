@@ -6,44 +6,67 @@
     <meta name="viewport" content="width=device-width; initial-scale=1.0">
     <title>Quiet Incomes - Login Page</title>
     <link rel="stylesheet" href="css/common-styles.css" type="text/css" />
-  <!--  <script type="text/javascript" src="Javascript/cordova.js"></script>-->
-    <!-- media queries css -->        
+    <!-- media queries css -->
 </head>
 <body>
-
-    <div id="login-box">        
+    <div id="login-box">
         <div class="inner-login">
-        <h2 style="color:#D5974E"><img src="images/quiteincomeslogo.jpg" alt="Quite Incomes" /></h2>
-        <div class="inner-login">           
-           <div class="loginwith">
-           Log in with 
-          </div>
-         <div class="loginwithsocial">
-           <a href="#" id="btnFacebook" onclick="FacebookUser();"><img src="images/facebookicon.jpg"  alt="Facebook"/></a>
-           <a href="#" id="btnGoogle" onclick="GoogleUser();"><img src="images/googleicon.jpg"  alt="Google"/></a>
-           <a href="#" id="btnLinkedin" onclick="LinkedinUser();"><img src="images/linkedinicon.jpg"  alt="Linkedin"/></a>
-        </div>
-        <div class="loginwith" style="padding-top: 12px;">
-           or Login Manually 
-          </div>
-        <label id="status"></label>
-            <div class="login-box-field" style="margin-top: 10px;">
-                <input id="txtUserName" name="q" class="form-login-username" title="Username" size="30"
-                    maxlength="2048" placeholder="Username"/></div>
-            <div class="login-box-field">
-                <input id="txtPassword" name="q" type="password" class="form-login-password" title="Password"
-                    size="30" maxlength="2048" placeholder="Password"/></div>
-            <div class="login-box-field">               
-                <input id="btnLogin" type="submit" value="" class="form-login-submit" onclick="NormalUser()" />
+            <h2 style="color: #D5974E">
+                <img src="images/quiteincomeslogo.jpg" alt="Quite Incomes" /></h2>
+            <div class="inner-login">
+                <div class="loginwith">
+                    Log in with
+                </div>
+                <div class="loginwithsocial">
+                    <a href="#" id="btnFacebook" onclick="FacebookUser();">
+                        <img src="images/facebookicon.jpg" alt="Facebook" /></a> <span id="signinButton"><span
+                            class="g-signin" data-callback="signinCallback" data-clientid="666523594183-ca5tshdlh5548l6b08q5fa4pk6fd3mv9.apps.googleusercontent.com"
+                            data-cookiepolicy="single_host_origin" data-requestvisibleactions="http://schemas.google.com/AddActivity"
+                            data-scope="https://www.googleapis.com/auth/plus.login" data-width="iconOnly">
+                            <img src="images/googleicon.jpg" alt="Google" />
+                        </span></span><a href="#" id="btnLinkedin" onclick="LinkedinUser();">
+                            <img src="images/linkedinicon.jpg" alt="Linkedin" /></a>
+                </div>
+                <div class="loginwith" style="padding-top: 12px;">
+                    or Login Manually
+                </div>
+                <label id="status">
+                </label>
+                <div class="login-box-field" style="margin-top: 10px;">
+                    <input id="txtUserName" name="q" class="form-login-username" title="Username" size="30"
+                        maxlength="2048" placeholder="Username" /></div>
+                <div class="login-box-field">
+                    <input id="txtPassword" name="q" type="password" class="form-login-password" title="Password"
+                        size="30" maxlength="2048" placeholder="Password" /></div>
+                <div class="login-box-field">
+                    <input id="btnLogin" type="submit" value="" class="form-login-submit" onclick="NormalUser()" />
+                </div>
+                <div class="login-box-field">
+                    <a href="#">Forgot your password?</a></div>
             </div>
-            <div class="login-box-field">
-                   <a href="#">Forgot your password?</a></div>
-            </div>       
-        
-        </div> 
+        </div>
     </div>
-    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>   
-<script type="text/javascript" src="Javascript/MainScript.js"></script>
-<script type="text/javascript" src="Javascript/Common.js"></script>
+    <script type="text/javascript">
+        function signinCallback(authResult) {
+            alert("ok");
+            if (authResult['access_token']) {
+                window.location = "inbox.html";
+            } else if (authResult['error']) {
+
+            }
+        }
+
+    </script>
+    <!-- Place this asynchronous JavaScript just before your </body> tag -->
+    <script type="text/javascript">
+        (function () {
+            var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+            po.src = 'https://apis.google.com/js/client:plusone.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+        })();
+    </script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+    <script type="text/javascript" src="Javascript/MainScript.js"></script>
+    <script type="text/javascript" src="Javascript/Common.js"></script>
 </body>
 </html>

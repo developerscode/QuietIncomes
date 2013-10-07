@@ -88,7 +88,7 @@ public partial class GetData : System.Web.UI.Page
         {
             using (SqlCommand command = new SqlCommand("[mboGetMemerDetails]", con))
             {
-                command.Parameters.Add("@MemberID", SqlDbType.VarChar).Value = 10000000;// 10000031;// 10000031;
+                command.Parameters.Add("@MemberID", SqlDbType.VarChar).Value = 10000066;// 10000000;// 10000031;// 10000031;
                 command.CommandType = CommandType.StoredProcedure;
                 con.Open();
                 command.ExecuteNonQuery();
@@ -131,7 +131,7 @@ public partial class GetData : System.Web.UI.Page
             using (SqlCommand command = new SqlCommand("[mboGetInboxDetailInfo]", con))
             {
 
-                command.Parameters.Add("@MemberID", SqlDbType.VarChar).Value = 10000000; //10000000;// 10000031;// 10000031;
+                command.Parameters.Add("@MemberID", SqlDbType.VarChar).Value = 10000066;// 10000000; //10000000;// 10000031;// 10000031;
                 command.CommandType = CommandType.StoredProcedure;
                 con.Open();
                 command.ExecuteNonQuery();
@@ -364,14 +364,14 @@ public partial class GetData : System.Web.UI.Page
             using (SqlCommand command = new SqlCommand("[mboArchiveReplayMessage]", con))
             {
 
-                command.Parameters.Add("@FromMemberID", SqlDbType.VarChar).Value = Convert.ToInt32(frmId);
-                command.Parameters.Add("@ToMemberID", SqlDbType.VarChar).Value = Convert.ToInt32(toid);
+                command.Parameters.Add("@FromMemberID", SqlDbType.VarChar).Value = frmId;// Convert.ToInt32(frmId);
+                command.Parameters.Add("@ToMemberID", SqlDbType.VarChar).Value = toid;// Convert.ToInt32(toid);
                 command.Parameters.Add("@Subject", SqlDbType.VarChar).Value = "";
                 // 10000000;// 10000031;
                 command.Parameters.Add("@ReplyText", SqlDbType.VarChar).Value = RepMesg;
                 command.CommandType = CommandType.StoredProcedure;
                 con.Open();
-                command.ExecuteNonQuery();
+                //command.ExecuteNonQuery();
                 SqlDataAdapter da = new SqlDataAdapter();
                 da.SelectCommand = command;
                 da.Fill(ds);
@@ -389,6 +389,45 @@ public partial class GetData : System.Web.UI.Page
         }
         return msg;
     }
+     [WebMethod]
+    public static string ReplayfromInbox(string frmId, string toid, string RepMesg)
+    {
+
+        DataSet ds = new DataSet();
+        string msg = "";
+        string strConnString = ConfigurationManager.ConnectionStrings["dbConnection"].ConnectionString;
+        using (SqlConnection con = new SqlConnection(strConnString))
+        {
+            using (SqlCommand command = new SqlCommand("[mboArchiveReplayMessage]", con))
+            {
+
+                command.Parameters.Add("@FromMemberID", SqlDbType.VarChar).Value = toid;// Convert.ToInt32(frmId);
+                command.Parameters.Add("@ToMemberID", SqlDbType.VarChar).Value = frmId;// Convert.ToInt32(toid);
+                command.Parameters.Add("@Subject", SqlDbType.VarChar).Value = "";
+                // 10000000;// 10000031;
+                command.Parameters.Add("@ReplyText", SqlDbType.VarChar).Value = RepMesg;
+                command.CommandType = CommandType.StoredProcedure;
+                con.Open();
+                //command.ExecuteNonQuery();
+                SqlDataAdapter da = new SqlDataAdapter();
+                da.SelectCommand = command;
+                da.Fill(ds);
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    msg = "your messages(S) are successfully sent";
+                }
+                else
+                {
+                    msg = "Error occurred";
+                }
+
+            }
+
+        }
+        return msg;
+    }
+
+    
 
 
 

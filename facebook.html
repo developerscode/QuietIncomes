@@ -3,7 +3,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title></title>
-    <!--<script type="text/javascript" src="Javascript/cordova.js"></script>-->
 </head>
 <body onload="login();">
 <div id="fb-root"></div>
@@ -12,7 +11,7 @@
     window.fbAsyncInit = function () {
         FB.init({
             appId: '480064372101222', // App ID
-            channelURL: 'inbox.html', // Channel File, not required so leave empty
+            channelURL: '', // Channel File, not required so leave empty
             status: true, // check login status
             cookie: true, // enable cookies to allow the server to access the session
             oauth: true, // enable OAuth 2.0
@@ -36,19 +35,12 @@
             }
         });
     }
-   // Load the SDK Asynchronously
-(function (d) {
-    var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
-    if (d.getElementById(id)) {
-        return;
-    }
-    js = d.createElement('script');
-    js.id = id;
-    js.async = true;
-    js.src = "http://connect.facebook.net/en_US/all.js";
-    ref.parentNode.insertBefore(js, ref);
-} (document));
-
+    // Load the SDK Asynchronously
+    (function () {
+        var e = document.createElement('script'); e.async = true;
+        e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
+        document.getElementById('fb-root').appendChild(e);
+    } ());
 //]]>
 </script>
 </body>
