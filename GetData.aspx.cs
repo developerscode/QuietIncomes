@@ -426,7 +426,83 @@ public partial class GetData : System.Web.UI.Page
         }
         return msg;
     }
+     [WebMethod]
+     public static string GetNormalUserId(string Username, string password)
+     {
 
+         DataSet ds = new DataSet();
+         string msg = "";
+         string strConnString = ConfigurationManager.ConnectionStrings["dbConnection"].ConnectionString;
+         using (SqlConnection con = new SqlConnection(strConnString))
+         {
+             using (SqlCommand command = new SqlCommand("[Get_UserLoginId ]", con))
+             {
+
+                 command.Parameters.Add("@Username", SqlDbType.VarChar).Value = Username;// Convert.ToInt32(frmId);
+                 command.Parameters.Add("@password", SqlDbType.VarChar).Value = password;// Convert.ToInt32(toid);
+                 command.Parameters.Add("@UserType", SqlDbType.VarChar).Value = "NORMAL";
+                 command.Parameters.Add("@otherId", SqlDbType.VarChar).Value = "";
+                 command.CommandType = CommandType.StoredProcedure;
+                 con.Open();
+
+                 SqlDataAdapter da = new SqlDataAdapter();
+                 da.SelectCommand = command;
+                 da.Fill(ds);
+                 if (ds.Tables[0].Rows.Count > 0)
+                 {
+                     msg = ds.Tables[0].Rows[0]["MemberID"].ToString();
+                 }
+                 else
+                 {
+                     msg = "Error occurred";
+                 }
+
+             }
+
+         }
+         return msg;
+
+
+     }
+
+     [WebMethod]//Fb_id,twitter_id,google_id,linkedin_id
+     public static string GetSocialUserId(string UserType, string otherId)
+     {
+
+         DataSet ds = new DataSet();
+         string msg = "";
+         string strConnString = ConfigurationManager.ConnectionStrings["dbConnection"].ConnectionString;
+         using (SqlConnection con = new SqlConnection(strConnString))
+         {
+             using (SqlCommand command = new SqlCommand("[Get_UserLoginId ]", con))
+             {
+
+                 command.Parameters.Add("@Username", SqlDbType.VarChar).Value = "";// Convert.ToInt32(frmId);
+                 command.Parameters.Add("@password", SqlDbType.VarChar).Value = "";// Convert.ToInt32(toid);
+                 command.Parameters.Add("@UserType", SqlDbType.VarChar).Value = UserType;
+                 command.Parameters.Add("@otherId", SqlDbType.VarChar).Value = otherId;
+                 command.CommandType = CommandType.StoredProcedure;
+                 con.Open();
+
+                 SqlDataAdapter da = new SqlDataAdapter();
+                 da.SelectCommand = command;
+                 da.Fill(ds);
+                 if (ds.Tables[0].Rows.Count > 0)
+                 {
+                     msg = ds.Tables[0].Rows[0]["MemberID"].ToString();
+                 }
+                 else
+                 {
+                     msg = "Error occurred";
+                 }
+
+             }
+
+         }
+         return msg;
+
+
+     }
     
 
 
