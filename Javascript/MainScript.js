@@ -2,14 +2,14 @@
 
 
 function LinkedinUser()  {
-    window.location = "linkedin.html";
+    window.location.href = "linkedin.html";
 }
 
 function GoogleUser() {
-    window.location = "google.html";
+    window.location.href = "google.html";
 }
 function FacebookUser() {
-    window.location = "facebook.html";
+    window.location.href = "facebook.html";
 }
 function NormalUser() {
     $(':input').inputWatermark();
@@ -27,7 +27,7 @@ function NormalUser() {
         return false;
     }
     else {
-        window.location = 'inbox.html';
+        window.location.href = 'inbox.html';
     }
 }    
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -35,5 +35,5 @@ function NormalUser() {
 //Logout Page
 function logout() {
     localStorage.clear();
-    window.location = 'index.html';
+    window.location.href = 'index.html';
 }

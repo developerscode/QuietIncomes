@@ -50,7 +50,7 @@
         function signinCallback(authResult) {
             alert("ok");
             if (authResult['access_token']) {
-                window.location = "inbox.html";
+                window.location.href = "inbox.html";
             } else if (authResult['error']) {
 
             }
