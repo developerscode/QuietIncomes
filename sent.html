@@ -20,7 +20,7 @@
             type: "POST",
             contentType: "application/json; charset=utf-8",
             url: "getdata.aspx/GetMemberDetails",
-            data: "{}",
+            data: "{'userId':'" + localStorage.userId + "'}",
             dataType: 'json',
             crossDomain: true,
             success: function (data) {
@@ -45,7 +45,7 @@
             type: "POST",
             contentType: "application/json; charset=utf-8",
             url: "getdata.aspx/GetSentDetails",
-            data: "{}",
+            data: "{'userId':'" + localStorage.userId + "'}",
             dataType: 'json',
             crossDomain: true,
             success: function (data) {

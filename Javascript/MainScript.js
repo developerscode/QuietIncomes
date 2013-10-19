@@ -1,5 +1,12 @@
 ﻿//Global Variables Declaration
-
+//Login Page Valdation for valida user
+$(document).ready(function () {    
+    if (typeof (Storage) !== "undefined") {        
+        if (localStorage.userId != null && localStorage.userId !="") {            
+            window.location.href = "Inbox.html"
+        }
+    }
+});
 
 function LinkedinUser()  {
     window.location.href = "linkedin.html";
@@ -27,7 +34,23 @@ function NormalUser() {
         return false;
     }
     else {
-        window.location.href = 'inbox.html';
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "getdata.aspx/GetNormalUserId",
+            data: "{'Username':'" + uname.toString() + "','password':'" + pword.toString() + "'}",
+            dataType: 'json',
+            crossDomain: true,
+            success: function (data) {                
+                localStorage.userId = data.d;
+                window.location.href = 'inbox.html';
+
+            },
+            error: function (result) {
+                alert("Error");
+            }
+        });
+        
     }
 }    
 ////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -77,7 +77,7 @@ public partial class GetData : System.Web.UI.Page
     }
 
     [WebMethod]
-    public static MemberDetails[] GetMemberDetails()
+    public static MemberDetails[] GetMemberDetails(string userId)
     {
 
         DataTable dt = new DataTable();
@@ -88,7 +88,7 @@ public partial class GetData : System.Web.UI.Page
         {
             using (SqlCommand command = new SqlCommand("[mboGetMemerDetails]", con))
             {
-                command.Parameters.Add("@MemberID", SqlDbType.VarChar).Value = 10000066;// 10000000;// 10000031;// 10000031;
+                command.Parameters.Add("@MemberID", SqlDbType.VarChar).Value = userId;//;10000066;// 10000000;// 10000031;// 10000031;
                 command.CommandType = CommandType.StoredProcedure;
                 con.Open();
                 command.ExecuteNonQuery();
@@ -119,7 +119,7 @@ public partial class GetData : System.Web.UI.Page
     }
 
     [WebMethod]
-    public static InboxDetails[] GetInboxDetails()
+    public static InboxDetails[] GetInboxDetails(string userId)
     {
 
         DataTable dt = new DataTable();
@@ -131,7 +131,7 @@ public partial class GetData : System.Web.UI.Page
             using (SqlCommand command = new SqlCommand("[mboGetInboxDetailInfo]", con))
             {
 
-                command.Parameters.Add("@MemberID", SqlDbType.VarChar).Value = 10000066;// 10000000; //10000000;// 10000031;// 10000031;
+                command.Parameters.Add("@MemberID", SqlDbType.VarChar).Value = userId;// 10000000; //10000000;// 10000031;// 10000031;
                 command.CommandType = CommandType.StoredProcedure;
                 con.Open();
                 command.ExecuteNonQuery();
@@ -161,7 +161,7 @@ public partial class GetData : System.Web.UI.Page
     }
 
     [WebMethod]
-    public static SentBoxDetails[] GetSentDetails()
+    public static SentBoxDetails[] GetSentDetails(string userId)
     {
 
         DataTable dt = new DataTable();
@@ -173,7 +173,7 @@ public partial class GetData : System.Web.UI.Page
             using (SqlCommand command = new SqlCommand("[mboSentItemsDetailInfo]", con))
             {
 
-                command.Parameters.Add("@MemberID", SqlDbType.VarChar).Value = 10000000;// 10000000;// 10000031;
+                command.Parameters.Add("@MemberID", SqlDbType.VarChar).Value = userId;// 10000000;// 10000031;
                 command.CommandType = CommandType.StoredProcedure;
                 con.Open();
                 command.ExecuteNonQuery();
@@ -202,7 +202,7 @@ public partial class GetData : System.Web.UI.Page
 
     }
     [WebMethod]
-    public static ArchiveDetails[] GetArchiveDetails()
+    public static ArchiveDetails[] GetArchiveDetails(string userId)
     {
 
         DataTable dt = new DataTable();
@@ -214,7 +214,7 @@ public partial class GetData : System.Web.UI.Page
             using (SqlCommand command = new SqlCommand("[mboArchivedItemsDetailInfo]", con))
             {
 
-                command.Parameters.Add("@MemberID", SqlDbType.VarChar).Value = 10000000;// 10000031;// 10000000;// 10000031;
+                command.Parameters.Add("@MemberID", SqlDbType.VarChar).Value = userId;// 10000031;// 10000000;// 10000031;
                 command.CommandType = CommandType.StoredProcedure;
                 con.Open();
                 command.ExecuteNonQuery();
