@@ -23,7 +23,7 @@
             $.ajax({
                 type: "POST",
                 contentType: "application/json; charset=utf-8",
-                url: "getdata.aspx/GetMemberDetails",
+                url: "http://web.developerscodeapps.com/GetData.aspx/GetMemberDetails",
                 data: "{'userId':'" + localStorage.userId + "'}",
                 dataType: 'json',
                 crossDomain: true,
@@ -49,7 +49,7 @@
             $.ajax({
                 type: "POST",
                 contentType: "application/json; charset=utf-8",
-                url: "getdata.aspx/GetInboxDetails",
+                url: "http://web.developerscodeapps.com/GetData.aspx/GetInboxDetails",
                 data: "{'userId':'" + localStorage.userId + "'}",
                 dataType: 'json',
                 crossDomain: true,
@@ -102,7 +102,7 @@
                 $.ajax({
                     type: "POST",
                     contentType: "application/json; charset=utf-8",
-                    url: "getdata.aspx/MoveToArchive",
+                    url: "http://web.developerscodeapps.com/GetData.aspx/MoveToArchive",
                     data: "{'Id':'" + chkId.toString() + "'}",
                     dataType: 'json',
                     crossDomain: true,
@@ -144,7 +144,7 @@
                 $.ajax({
                     type: "POST",
                     contentType: "application/json; charset=utf-8",
-                    url: "getdata.aspx/DeleteMEssages",
+                    url: "http://web.developerscodeapps.com/GetData.aspx/DeleteMEssages",
                     data: "{'Id':'" + chkId.toString() + "'}",
                     dataType: 'json',
                     crossDomain: true,
@@ -226,7 +226,7 @@
                     $.ajax({
                         type: "POST",
                         contentType: "application/json; charset=utf-8",
-                        url: "getdata.aspx/ReplayfromInbox",
+                        url: "http://web.developerscodeapps.com/GetData.aspx/ReplayfromInbox",
                         // data: "{'Id':'" + chkId.toString() + "','RepMesg':'" + replaymsg.toString() + "'}",
                         data: "{'frmId':'" + frmId.toString() + "','toid':'" + toid.toString() + "','RepMesg':'" + replaymsg.toString() + "'}",
                         dataType: 'json',

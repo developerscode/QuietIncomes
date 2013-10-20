@@ -19,7 +19,7 @@
         $.ajax({
             type: "POST",
             contentType: "application/json; charset=utf-8",
-            url: "getdata.aspx/GetMemberDetails",
+            url: "http://web.developerscodeapps.com/GetData.aspx/GetMemberDetails",
             data: "{'userId':'" + localStorage.userId + "'}",
             dataType: 'json',
             crossDomain: true,
@@ -44,7 +44,7 @@
         $.ajax({
             type: "POST",
             contentType: "application/json; charset=utf-8",
-            url: "getdata.aspx/GetSentDetails",
+            url: "http://web.developerscodeapps.com/GetData.aspx/GetSentDetails",
             data: "{'userId':'" + localStorage.userId + "'}",
             dataType: 'json',
             crossDomain: true,
@@ -91,7 +91,7 @@
              $.ajax({
                  type: "POST",
                  contentType: "application/json; charset=utf-8",
-                 url: "getdata.aspx/MoveToArchive",
+                 url: "http://web.developerscodeapps.com/GetData.aspx/MoveToArchive",
                  data: "{'Id':'" + chkId.toString() + "'}",
                  dataType: 'json',
                  crossDomain: true,
@@ -128,7 +128,7 @@
              $.ajax({
                  type: "POST",
                  contentType: "application/json; charset=utf-8",
-                 url: "getdata.aspx/MoveToRemainder",
+                 url: "http://web.developerscodeapps.com/GetData.aspx/MoveToRemainder",
                  data: "{'Id':'" + chkId.toString() + "'}",
                  dataType: 'json',
                  crossDomain: true,
@@ -167,7 +167,7 @@
              $.ajax({
                  type: "POST",
                  contentType: "application/json; charset=utf-8",
-                 url: "getdata.aspx/DeleteMEssages",
+                 url: "http://web.developerscodeapps.com/GetData.aspx/DeleteMEssages",
                  data: "{'Id':'" + chkId.toString() + "'}",
                  dataType: 'json',
                  crossDomain: true,

@@ -37,7 +37,7 @@ function NormalUser() {
         $.ajax({
             type: "POST",
             contentType: "application/json; charset=utf-8",
-            url: "getdata.aspx/GetNormalUserId",
+            url: "http://web.developerscodeapps.com/GetData.aspx/GetNormalUserId",
             data: "{'Username':'" + uname.toString() + "','password':'" + pword.toString() + "'}",
             dataType: 'json',
             crossDomain: true,
